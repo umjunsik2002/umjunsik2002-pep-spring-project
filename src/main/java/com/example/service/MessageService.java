@@ -43,7 +43,7 @@ public class MessageService {
     }
 
     @Transactional
-    public int patchMessage(Message message, int messageId) {
-        return messageRepository.updateMessage(messageId, message.getMessageText());
+    public int patchMessage(int messageId, String messageText) {
+        return messageRepository.updateMessage(messageId, messageText);
     }
 }

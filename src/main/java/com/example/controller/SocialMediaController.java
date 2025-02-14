@@ -80,7 +80,7 @@ public class SocialMediaController {
             return ResponseEntity.badRequest().build();
         }
         
-        int patchQuery = messageService.patchMessage(message, messageId);
+        int patchQuery = messageService.patchMessage(messageId, messageText);
         if (patchQuery == 0) {
             return ResponseEntity.badRequest().build();
         }
