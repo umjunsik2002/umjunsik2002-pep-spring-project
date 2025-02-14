@@ -2,6 +2,7 @@ package com.example.service;
 import com.example.entity.Message;
 import com.example.repository.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.List;
@@ -23,12 +24,9 @@ public class MessageService {
         return messageRepository.save(message);
     }
 
-    public boolean deleteMessage(int messageId) {
-        if (!messageRepository.existsById(messageId)) {
-            return false;
-        }
-        messageRepository.deleteById(messageId);
-        return true;
+    @Transactional
+    public int deleteMessage(int messageId) {
+        return messageRepository.deleteMessage(messageId);
     }
 
     public List<Message> getMessageForAccount(int accountId) {
@@ -44,13 +42,8 @@ public class MessageService {
         return message.orElse(null);
     }
 
-    public boolean patchMessage(Message message, int messageId) {
-        Optional<Message> existingMessage = messageRepository.findById(messageId);
-        if (existingMessage.isEmpty()) {
-            return false;
-        }
-        existingMessage.get().setMessageText(message.getMessageText());
-        messageRepository.save(existingMessage.get());
-        return true;
+    @Transactional
+    public int patchMessage(Message message, int messageId) {
+        return messageRepository.updateMessage(messageId, message.getMessageText());
     }
 }

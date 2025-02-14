@@ -45,11 +45,11 @@ public class SocialMediaController {
 
     @DeleteMapping("/messages/{message_id}")
     public ResponseEntity<Integer> deleteMessage(@PathVariable("message_id") Integer messageId) {
-        boolean deleteQuery = messageService.deleteMessage(messageId);
-        if (!deleteQuery) {
+        int deleteQuery = messageService.deleteMessage(messageId);
+        if (deleteQuery == 0) {
             return ResponseEntity.ok().build();
         }
-        return ResponseEntity.ok(1);
+        return ResponseEntity.ok(deleteQuery);
     }
 
     @GetMapping("/accounts/{account_id}/messages")
@@ -80,11 +80,11 @@ public class SocialMediaController {
             return ResponseEntity.badRequest().build();
         }
         
-        boolean patchQuery = messageService.patchMessage(message, messageId);
-        if (!patchQuery) {
+        int patchQuery = messageService.patchMessage(message, messageId);
+        if (patchQuery == 0) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(1);
+        return ResponseEntity.ok(patchQuery);
     }
 
     @PostMapping("/login")
